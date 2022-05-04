@@ -1,0 +1,13 @@
+:host {
+  position: relative;
+  display: block;
+}
+
+.textarea {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  min-height: 80px;
+  resize: both;
+  overflow: auto;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "tasq",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "@types/three": "^0.139.0",
+    "autoprefixer": "^10.4.4",
+    "hybrids": "^7.0.5",
+    "lodash": "^4.17.21",
+    "mousetrap": "^1.6.5",
+    "postcss": "^8.4.12",
+    "postcss-hexrgba": "^2.0.1",
+    "postcss-mixins": "^9.0.2",
+    "postcss-nested": "^5.0.6",
+    "redux": "^4.1.2",
+    "rollup-plugin-css-hmr": "^0.2.2",
+    "vite": "^2.9.1"
+  },
+  "dependencies": {
+    "@auzmartist/cam-el": "^1.2.4",
+    "code-tex": "^0.2.0",
+    "immer": "^9.0.12",
+    "monaco-editor": "^0.33.0",
+    "showdown": "^2.0.3",
+    "three": "^0.139.2",
+    "uuid": "^8.3.2"
+  }
+}

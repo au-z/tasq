@@ -1,0 +1,26 @@
+@import './mixins.css';
+
+@define-mixin button {
+  @mixin flexy center, center;
+  border: 0;
+  border-radius: 1rem;
+  background: var(--button-primary-bg, #5b5dcf);
+  color: var(--button-primary-color, white);
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  background: var(--button-bg, #9b9cd8);
+}
+
+button {
+  @mixin button;
+}
+
+button.small {
+  background: var(--button-small-bg, #9b9cd8);
+  padding: 1px 6px;
+}
+
+button.circle {
+  width: 1.5rem;
+  height: 1.5rem;
+}

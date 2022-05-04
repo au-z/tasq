@@ -1,0 +1,106 @@
+@import './css/base.css';
+
+.card {
+  @mixin neu 2rem, 210, 6%, 22%;
+  border-radius: 1rem;
+  margin: 1rem 0;
+  /* border: 1px solid var(--card-border, #e7e8e9); */
+  & > * {
+    padding: 0.5rem;
+  }
+
+  .header {
+    @mixin flexy space-between, flex-end;
+    padding-top: 0.5rem;
+    border-bottom: 2px solid var(--card-border, #e7e8e9);
+    color: var(--text-1, black);
+
+    h4 {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .content {
+  }
+
+  .footer {
+  }
+}
+
+.task {
+  margin: 1rem 0.5rem;
+
+  .header {
+    .delete {
+      color: #ad6a6a;
+      background: rgba(0, 0, 0, 0.2);
+
+      cam-icon::part(icon) {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .content {
+    .description {
+      border-radius: 0.75rem;
+      background: #222;
+      padding: 0.25rem 0.25rem 0.75rem 0.25rem;
+      height: auto;
+      overflow: hidden;
+      transition: 0.3s all ease;
+      &.compact {
+        height: 1rem;
+      }
+
+      .tools {
+        @mixin flexy flex-end, center;
+        & > * {
+          margin-left: 1rem;
+        }
+        cam-icon::part(icon) {
+          font-size: 1rem;
+        }
+      }
+
+      .resizable {
+        min-height: 240px;
+      }
+    }
+  }
+
+  .actions {
+    @mixin flexy flex-end, center;
+    flex-gap: 1rem;
+
+    & > * {
+      margin: 0 1rem;
+    }
+  }
+}
+
+.resizable {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  min-height: 80px;
+  resize: both;
+  overflow: auto;
+}
+
+.button-group {
+  @mixin flexy center, center;
+  & > * {
+    border-right: 1px solid var(--button-group-border, #e7e8e9);
+  }
+  & > *:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  & > *:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-right: 0;
+  }
+}

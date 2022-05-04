@@ -1,0 +1,50 @@
+@define-mixin wh $w: auto, $h: $w {
+  width: $w;
+  height: $h;
+}
+
+@define-mixin circle $r {
+  border-radius: calc($r / 2);
+  @mixin wh $r;
+}
+
+@define-mixin absPos $t: auto, $r: auto, $b: auto, $l: auto {
+  position: absolute;
+  top: $t;
+  right: $r;
+  bottom: $b;
+  left: $l;
+}
+
+@define-mixin flexy $justify: flex-start, $align: flex-start, $direction: row {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+@define-mixin shadow $z: 1, $size: 1, $r: 0, $g: 0, $b: 0 {
+  box-shadow: 0 calc(2.8px * $size) calc(2.2px * $size) rgba($color, calc($z * 0.034)),
+    0 calc(6.7px * $size) calc(5.3px * $size) rgba($color, calc($z * 0.048)),
+    0 calc(12.5px * $size) calc(10px * $size) rgba($color, calc($z * 0.06)),
+    0 calc(22.3px * $size) calc(17.9px * $size) rgba($color, calc($z * 0.072)),
+    0 calc(41.8px * $size) calc(33.4px * $size) rgba($color, calc($z * 0.086)),
+    0 calc(100px * $size) calc(80px * $size) rgba($color, calc($z * 0.12));
+}
+
+@define-mixin neu $r, $hue, $sat, $lum {
+  --r: $r;
+  --sr: calc(var(--r) * 0.5);
+  --c-h: $hue;
+  --c-s: $sat;
+  --c-l: $lum;
+  --c: hsl(var(--c-h), var(--c-s), var(--c-l));
+  --c-1: hsl(var(--c-h), calc(var(--c-s) * 1), min(90%, calc(var(--c-l) * 1.6)));
+  --c-2: hsl(var(--c-h), calc(var(--c-s) * 1.2), max(8%, calc(var(--c-l) * 0.5)));
+
+  border-radius: var(--r);
+  background: linear-gradient(15deg, var(--c-1) -100%, var(--c) 10%, var(--c) 60%, var(--c-2) 250%);
+  box-shadow: 0 calc(var(--sr) * -0.25) var(--sr) 0 var(--c-1), 0 calc(var(--sr) * 0.5) var(--sr) 0 var(--c-2);
+  box-sizing: border-box;
+  border: max(1.5px, calc(var(--r) * 0.03)) solid var(--c);
+}

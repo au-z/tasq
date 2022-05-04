@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "module": "es2020",
+    "target": "es2020",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noImplicitUseStrict": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true
+  }
+}
