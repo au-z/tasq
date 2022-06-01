@@ -7,19 +7,43 @@ import { TaskSchema } from './models';
 import { MonacoEditor } from './monaco-editor/monaco-editor';
 const components = { EntityCreate, TasqItem, MonacoEditor };
 import styles from './tasq-manager.css';
+// import { Store } from 'pinia';
+
+// function useCounter<S extends Store<string, PiniaState, {}, PiniaActions>>(store: S) {
+//   return {
+//     count: pinia(store, (_, s) => s.count),
+//     ...useActions(store, ({ increment, nothing }) => ({ increment, nothing })),
+//   };
+// }
 
 export const TasqManager = define<any>({
   tag: 'tasq-manager',
   columns: redux(store, (_, state: State) => state.states.data),
   allTasks: redux(store, (_, state: State) => state.tasks.data),
-  unarchivedTasks: ({ allTasks }) => allTasks, // allTasks.filter((t) => !t.archived),
-  tasks: ({ unarchivedTasks }) => groupBy(unarchivedTasks, 'state'),
-  render: ({ columns, tasks }) =>
+  showArchived: false,
+  filteredTasks: ({ allTasks, showArchived }) => allTasks.filter((t) => showArchived || !t.archived),
+  tasks: ({ filteredTasks }) => groupBy(filteredTasks, 'state'),
+  render: ({ columns, tasks, showArchived, filteredTasks }) =>
     html`
       <div class="container">
         ${columns.map(
           (column, i) => html`<div class="column">
-            <header>${column.name}</header>
+            <header>
+              <cam-box flex="space-between center">
+                <b>${column.name}</b>
+                ${i === 0 && html` <span>Total Tasks: ${filteredTasks.length}</span> `}
+                ${i === columns.length - 1 &&
+                html`
+                  <button
+                    class=" archive-filter transparent"
+                    onclick="${html.set('showArchived', !showArchived)}"
+                    title="${showArchived ? 'hide' : 'show'} archived"
+                  >
+                    <cam-icon>${showArchived ? 'archive' : 'menu'}</cam-icon>
+                  </button>
+                `}
+              </cam-box>
+            </header>
             <div class="tasks">
               ${i === 0 &&
               html`

@@ -29,10 +29,13 @@ export const renderEnum = (host, f: Field, onchange: (host, key, e) => void) => 
 export const renderEditor = (host, f: Field, onchange: (host, key, e) => void) => html`
   <div class="textarea">
     <monaco-editor
-      theme="${f.editor?.theme}"
+      theme="${f.editor?.theme ?? ''}"
       language="${f.editor?.language}"
       value="${f.value}"
-      onchange="${(host, e) => onchange(host, f.key, e)}"
+      onchange="${(host, e) => {
+        console.log(e);
+        onchange(host, f.key, e);
+      }}"
       transparent
     ></monaco-editor>
   </div>

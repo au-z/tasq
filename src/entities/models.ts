@@ -1,47 +1,49 @@
-import { Entity } from "../state";
+import { Entity } from '../state';
 
-export enum Type {
-  checkbox = "checkbox",
-  number = "number",
-  text = "text",
-  editor = "editor",
-  enum = "enum",
-  entitylist = "entitylist",
-  list = "list",
-  entity = "entity",
-}
+export const Types = {
+  checkbox: 'checkbox',
+  number: 'number',
+  text: 'text',
+  editor: 'editor',
+  enum: 'enum',
+  entitylist: 'entitylist',
+  list: 'list',
+  entity: 'entity',
+} as const;
+
+export type Type = keyof typeof Types;
 
 function defaultFromType(type: Type, options?: Record<string, string>[]) {
   switch (type) {
-    case Type.checkbox:
+    case Types.checkbox:
       return false;
-    case Type.number:
+    case Types.number:
       return 0;
-    case Type.text:
-      return "";
-    case Type.entitylist:
+    case Types.text:
+      return '';
+    case Types.entitylist:
       return [];
-    case Type.enum:
+    case Types.enum:
       return options?.keys?.()[0] || null;
-    case Type.list:
+    case Types.list:
       return [];
-    case Type.entity:
+    case Types.entity:
       return {};
   }
 }
 
-export function typeFromTypeof(type: string) {
+export function typeFromTypeof(type: string | Type) {
   switch (type) {
-    case "string":
-      return Type.text;
-    case "number":
-      return Type.number;
-    case "boolean":
-      return Type.checkbox;
-    case "array":
-      return Type.list;
-    case "object":
-      return Type.entity;
+    case 'string':
+      return Types.text;
+    case 'number':
+      return Types.number;
+    case 'boolean':
+      return Types.checkbox;
+    case 'array':
+      return Types.list;
+    case 'object':
+      return Types.entity;
   }
 }
 
@@ -64,10 +66,7 @@ export interface Schema {
 
 export function fromSchema(host) {
   return host.schema?.fields.reduce((entity, f) => {
-    entity[f.key] =
-      typeof f.value === "function"
-        ? f.value()
-        : f.value ?? defaultFromType(f.type);
+    entity[f.key] = typeof f.value === 'function' ? f.value() : f.value ?? defaultFromType(f.type);
     return entity;
   }, {});
 }

@@ -39,12 +39,17 @@ export const MarkdownPreview = define<any>({
       <style>
         .markdown {
           color: #ddd;
+          font-size: 0.92em;
         }
         a {
           color: hsl(210, 70%, 80%);
         }
         pre {
           color: #aaa;
+        }
+        p {
+          margin-block-start: 0.5em;
+          margin-block-end: 0.5em;
         }
       </style>`,
 });

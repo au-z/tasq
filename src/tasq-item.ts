@@ -80,6 +80,11 @@ export const TasqItem = define<TasqItem>({
       </div>
       <div class="footer">
         <div class="actions">
+          ${isLastState && html`<button onclick="${archive}"><cam-icon>archive</cam-icon>&nbsp;&nbsp; Archive</button>`}
+          ${!task.description &&
+          html`<button onclick="${html.set('isEditMode', !isEditMode)}" title="${isEditMode ? 'done' : 'edit'}">
+            <cam-icon>${isEditMode ? 'done' : 'edit'}</cam-icon>
+          </button>`}
           <div class="button-group">
             <button class="small" onclick="${move.bind(null, -1)}">
               <cam-icon>chevron_left</cam-icon>
@@ -88,11 +93,6 @@ export const TasqItem = define<TasqItem>({
               <cam-icon>chevron_right</cam-icon>
             </button>
           </div>
-          ${isLastState && html`<button onclick="${archive}"><cam-icon>archive</cam-icon>&nbsp;&nbsp; Archive</button>`}
-          ${!task.description &&
-          html`<button onclick="${html.set('isEditMode', !isEditMode)}" title="${isEditMode ? 'done' : 'edit'}">
-            <cam-icon>${isEditMode ? 'done' : 'edit'}</cam-icon>
-          </button>`}
         </div>
       </div>
     </div>`.style(styles),
@@ -114,7 +114,6 @@ function updateDescription(host, { detail }: CustomEvent) {
 function move(add: number, host: TasqItem, e) {
   host.draft = produce(host.task, (task: Task) => {
     let idx = host.taskStates.findIndex((state) => task.state === state.name);
-    console.log(task, task.state, host.taskStates, idx);
     const nextIndex = Math.max(Math.min(idx + add, host.taskStates.length - 1), 0);
     task.state = host.taskStates[nextIndex]?.name;
   });

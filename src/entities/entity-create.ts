@@ -1,7 +1,7 @@
 import { define, dispatch, html } from 'hybrids';
 import produce from 'immer';
 import { getset } from '../utils/hybrids';
-import { Field, fromSchema, Schema, Type, typeFromTypeof } from './models';
+import { Field, fromSchema, Schema, Types, typeFromTypeof } from './models';
 import { EntityList, renderEditor, renderEnum } from './templates';
 import * as CamEl from '@auzmartist/cam-el';
 const components = { EntityList, ...CamEl };
@@ -58,22 +58,22 @@ export const EntityCreate = define<EntityCreate>({
         .map((f) => html`
           <cam-box m="1 0" flex="start" dir="column" class="field">
             <label>${f.key}</label>
-            ${f.type === Type.enum && f.options ?
+            ${f.type === Types.enum && f.options ?
                 renderEnum(host, f, set) :
-                f.type === Type.entitylist && f.options ? html`
+                f.type === Types.entitylist && f.options ? html`
                   <entity-list
                     field="${f}"
                     entities="${f.options}"
                     entityFormat="${f.listFormat}"
                     onupdate="${(host, e) => set(host, f.key, e)}"
                   ></entity-list>
-                ` : f.type === Type.editor ? renderEditor(host, f, set) : html`
+                ` : f.type === Types.editor ? renderEditor(host, f, set) : html`
                 <cam-input
                   part="input"
                   data-type="${f.type}"
                   type="${f.type}"
                   value="${f.value}"
-                  checked="${f.type === Type.checkbox && !!f.value}"
+                  checked="${f.type === Types.checkbox && !!f.value}"
                   disabled="${(host.lockId && f.key === "id") || f.readonly}"
                   onupdate="${(host, e) => set(host, f.key, e)}"
                 ></cam-input>`}

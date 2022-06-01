@@ -9,6 +9,7 @@
   padding: 0.4rem 1rem;
   cursor: pointer;
   background: var(--button-bg, #9b9cd8);
+  letter-spacing: 0.06rem;
 }
 
 button {

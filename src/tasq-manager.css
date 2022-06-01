@@ -10,7 +10,7 @@
 }
 
 .column {
-  @mixin neu 1rem, 210, 6%, 22%;
+  background: var(--column-background, hsl(230, 6%, 24%));
   border: 1px solid var(--fe, hsl(210, 9%, 39%));
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -21,7 +21,7 @@ entity-create {
 }
 entity-create::part(fieldset) {
   border-radius: 0.5rem;
-  border: 3px solid var(--container-background);
+  border: 1px solid var(--column-background, white);
 }
 entity-create::part(input) {
   --cam-input-bg: rgba(255, 255, 255, 0.6);
@@ -30,4 +30,13 @@ entity-create::part(input) {
 entity-create::part(button) {
   @mixin button;
   font-weight: bold;
+}
+
+.archive-filter {
+  @mixin neu 1rem, 225, 10%, 24%;
+  background: transparent;
+  color: white;
+  cam-icon::part(icon) {
+    font-size: 1rem;
+  }
 }

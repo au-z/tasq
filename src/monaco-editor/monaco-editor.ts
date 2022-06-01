@@ -33,12 +33,13 @@ export const MonacoEditor = define<any>({
   container: ref('.container'),
   editor: {
     get: ({ container, theme, language, value, colors }, val) => {
-      monaco.editor.defineTheme('custom', {
-        base: theme,
-        inherit: true,
-        rules: [],
-        colors,
-      });
+      theme &&
+        monaco.editor.defineTheme('custom', {
+          base: theme,
+          inherit: true,
+          rules: [],
+          colors,
+        });
       return val ?? monaco.editor.create(container, { theme: 'custom', language, value });
     },
     connect: (host, key) => {

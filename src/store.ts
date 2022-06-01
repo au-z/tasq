@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import { merge } from 'lodash';
 import { produce } from 'immer';
 const devtools = (<any>window).__REDUX_DEVTOOLS_EXTENSION__ && (<any>window).__REDUX_DEVTOOLS_EXTENSION__();
 
@@ -65,7 +66,7 @@ const reducers = {
       if (idx === -1) {
         draft.tasks.data.push(task as Task);
       } else {
-        draft.tasks.data.splice(idx, 1, { ...draft.tasks.data[idx], ...task });
+        draft.tasks.data.splice(idx, 1, merge({}, draft.tasks.data[idx], task));
       }
     }),
   DELETE_TASK: (state: State, id: string) =>
@@ -110,4 +111,66 @@ export function redux<T, S, E>(store, mapState?: (host: E, state: S) => T) {
         if (host[key] !== get(host)) invalidate();
       }),
   };
+}
+
+import { createApp, ref, toHandlers } from 'vue';
+import { createPinia, defineStore, StateTree, Store } from 'pinia';
+import { Descriptor, Property } from 'hybrids';
+
+const app = createApp({});
+app.use(createPinia());
+
+export interface PiniaState extends StateTree {
+  count: any;
+}
+
+export const useStore = defineStore('root', {
+  state: (): PiniaState => ({
+    count: { value: 0, child: { foo: 'bar' } },
+  }),
+  actions: {
+    increment() {
+      this.count = produce(this.count, (count) => {
+        count.value++;
+        count.child.foo = 'bang';
+      });
+      console.log(this.count);
+    },
+    nothing() {
+      console.log('nothing!');
+    },
+  },
+});
+
+export function pinia<T, S extends Store, E>(store: S, mapState?: (host: E, state: S) => T) {
+  let curr;
+  const get = (host) => {
+    curr = mapState ? mapState(host, store) : () => store;
+    console.log('CURR', curr);
+    return curr;
+  };
+
+  return {
+    get,
+    connect: (host, key, invalidate) => {
+      // re-get on every subscription
+      store.$subscribe((mut, state) => {
+        let newV = mapState(host, store);
+        console.log(curr === mapState(host, store));
+        console.log(curr, newV);
+        if (mut.events.oldValue === curr) invalidate();
+      });
+    },
+  };
+}
+
+export function useActions<S extends Store, E>(
+  store: S,
+  map: (store: S) => Record<string, () => void>,
+  prefix = '',
+): Record<keyof S, Descriptor<E, () => void>> {
+  return Object.entries(map(store)).reduce((props, [key, actionFn]) => {
+    props[`${prefix}${key}`] = (host) => actionFn;
+    return props;
+  }, {} as Record<keyof S, Descriptor<E, () => void>>);
 }
