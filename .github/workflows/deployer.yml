@@ -9,8 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     strategy:
       matrix:
         node-version: [15]
@@ -34,6 +34,6 @@ jobs:
           folder: dist
           bucket: ${{ secrets.S3_BUCKET }}/projects/tasq
           delete-removed: projects/tasq/**
-          bucket-region: ${{ env.S3_BUCKET_REGION }}
+          bucket-region: ${{ secrets.S3_BUCKET_REGION }}
           no-cache: true
           private: true
