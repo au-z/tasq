@@ -46,12 +46,12 @@
     .description {
       border-radius: 0.75rem;
       background: #222;
-      padding: 0.25rem 0.25rem 0.75rem 0.25rem;
+      padding: 0.25rem;
       height: auto;
       overflow: hidden;
       transition: 0.3s all ease;
       &.compact {
-        height: 1rem;
+        height: 1.5rem;
       }
 
       .tools {
@@ -66,6 +66,11 @@
 
       .resizable {
         min-height: 240px;
+      }
+
+      markdown-preview {
+        display: block;
+        margin: 0 0.5rem;
       }
     }
   }
