@@ -9,8 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
     strategy:
       matrix:
         node-version: [15]
@@ -32,8 +32,8 @@ jobs:
         uses: Reggionick/s3-deploy@v3.1.1
         with:
           folder: dist
-          bucket: ${{ secrets.S3_BUCKET }}
-          bucket-region: ${{ secrets.S3_BUCKET_REGION }}
-          delete-removed: true
+          bucket: ${{ secrets.S3_BUCKET }}/projects/tasq
+          delete-removed: projects/tasq/**
+          bucket-region: ${{ env.S3_BUCKET_REGION }}
           no-cache: true
           private: true
